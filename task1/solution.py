@@ -36,7 +36,7 @@ def strict(func: Callable) -> Callable:
                     if not isinstance(args[index], type_arg.annotation):
                         raise TypeError(
                             error_msg.substitute(
-                                arg_type=type_arg.annotation,
+                                arg_type=type_arg.annotation.__name__,
                                 arg_type2=args[index],
                                 type=type(args[index]).__name__,
                             )
