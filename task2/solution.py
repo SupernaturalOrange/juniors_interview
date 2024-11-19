@@ -32,10 +32,10 @@ KEY_NEXT_URL_PARAMS = 0
 
 
 async def crawl_url(
-    session: ClientSession,
-    url: str,
-    visited: Set[str],
-    count_types_animal: dict[str, int],
+        session: ClientSession,
+        url: str,
+        visited: Set[str],
+        count_types_animal: dict[str, int],
 ):
     """Формируем ссылки."""
     if url in visited:
@@ -67,7 +67,7 @@ async def crawl_url(
 
                     if len(animals_list[KEY_TYPE_INDEX]) == LETTER:
                         count_types_animal[animals_list[KEY_TYPE_INDEX]] += (
-                            len(animals_list) - LETTER
+                                len(animals_list) - LETTER
                         )
                     else:
 
@@ -97,9 +97,9 @@ async def crawl_url(
                     next_url_params = next_data_of_link.get("href")
 
             if (
-                next_url_params
-                and isinstance(next_url_params, list)
-                and len(next_url_params) > 0
+                    next_url_params
+                    and isinstance(next_url_params, list)
+                    and len(next_url_params) > 0
             ):
                 next_url_params.remove(url)
                 next_url_params = next_url_params[KEY_NEXT_URL_PARAMS]
@@ -117,11 +117,11 @@ async def crawl_url(
             )
 
     except (
-        ServerTimeoutError,
-        ClientConnectorError,
-        ClientOSError,
-        asyncio.TimeoutError,
-        OSError,
+            ServerTimeoutError,
+            ClientConnectorError,
+            ClientOSError,
+            asyncio.TimeoutError,
+            OSError,
     ) as e:
 
         logger.error(e)
@@ -134,7 +134,7 @@ async def main() -> None:
     count_type_of_animals: dict[str, int] = defaultdict(int)
     link: str = f"{START_URL}/wiki/Категория:Животные_по_алфавиту"
     async with ClientSession(
-        timeout=ClientTimeout(connect=5, total=10)
+            timeout=ClientTimeout(connect=5, total=10)
     ) as session:  # noqa E501
         await crawl_url(
             session=session,
@@ -147,7 +147,7 @@ async def main() -> None:
     count: int
 
     async with aiofiles.open(
-        FILE_PATH, mode="w", encoding="utf-8", newline=""
+            FILE_PATH, mode="w", encoding="utf-8", newline=""
     ) as f:  # noqa E501
         logger.debug("Создание файла: %s", FILE_PATH)
         writer = csv.writer(f)
@@ -158,6 +158,31 @@ async def main() -> None:
     logger.info("Звери собраны.")
 
 
+logging.basicConfig(level=logging.INFO)
+asyncio.run(main())
+
 if __name__ == "__main__":
-    logging.basicConfig(level=logging.INFO)
-    asyncio.run(main())
+    def test_build_url():
+        """Тест логики составления URL."""
+        START_URL = "https://ru.wikipedia.org"
+        next_url_params = "/wiki/Категория:Животные_по_алфавиту"
+
+        constructed_url = f"{START_URL}{next_url_params}"
+
+        assert constructed_url == "https://ru.wikipedia.org/wiki/Категория:Животные_по_алфавиту", \
+            "Ошибка составления URL"
+        print("Тест составления URL завершен успешно! 🙂")
+
+
+    async def test_status_code():
+        """Тест статус кода."""
+        START_URL = "https://ru.wikipedia.org"
+        next_url_params = "/wiki/Категория:Животные_по_алфавиту"
+        constructed_url = f"{START_URL}{next_url_params}"
+        async with ClientSession() as session:
+            response = await session.get(url=constructed_url)
+            assert response.status == 200
+            print("Тест ответа завершен успешно! ")
+
+    test_build_url()
+    asyncio.run(test_status_code())
