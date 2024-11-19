@@ -12,64 +12,79 @@ def check_type_error(exception, func_name, param_name, expected_type, received_v
         f"Expected received_value: {received_value}, but got: {exception.received_value}"
 
 
-def test_sum_two():
-    assert sum_two(1, 2) == 3
+def assert_type_error(func, *args, expected_func_name, expected_param_name, expected_type, received_value, **kwargs):
     exception = None
     try:
-        sum_two(1, 2.0)
+        func(*args, **kwargs)
     except TypeError as e:
         exception = e
-    check_type_error(exception, 'sum_two', 'b', int, 2.0)
+    check_type_error(exception, expected_func_name, expected_param_name, expected_type, received_value)
+
+
+def test_sum_two():
+    assert sum_two(1, 2) == 3
+    assert_type_error(
+        sum_two, 1, 2.0,
+        expected_func_name='sum_two',
+        expected_param_name='b',
+        expected_type=int,
+        received_value=2.0
+    )
 
 
 def test_concat_strings():
     assert concat_strings("hello", "world") == "helloworld"
-    exception = None
-    try:
-        concat_strings("hello", 123)
-    except TypeError as e:
-        exception = e
-    check_type_error(exception, 'concat_strings', 'b', str, 123)
+    assert_type_error(
+        concat_strings, "hello", 123,
+        expected_func_name='concat_strings',
+        expected_param_name='b',
+        expected_type=str,
+        received_value=123
+    )
 
 
 def test_divide():
     assert divide(4.0, 2.0) == 2.0
-    exception = None
-    try:
-        divide(4.0, "2.0")
-    except TypeError as e:
-        exception = e
-    check_type_error(exception, 'divide', 'b', float, "2.0")
+    assert_type_error(
+        divide, 4.0, "2.0",
+        expected_func_name='divide',
+        expected_param_name='b',
+        expected_type=float,
+        received_value="2.0"
+    )
 
 
 def test_logic_and():
     assert logic_and(True, False) is False
-    exception = None
-    try:
-        logic_and(True, 1)
-    except TypeError as e:
-        exception = e
-    check_type_error(exception, 'logic_and', 'b', bool, 1)
+    assert_type_error(
+        logic_and, True, 1,
+        expected_func_name='logic_and',
+        expected_param_name='b',
+        expected_type=bool,
+        received_value=1
+    )
 
 
 def test_mixed_args():
     assert mixed_args(1, 2.5, "hello", True) == "1, 2.5, hello, True"
-    exception = None
-    try:
-        mixed_args(1, 2.5, 123, True)
-    except TypeError as e:
-        exception = e
-    check_type_error(exception, 'mixed_args', 'c', str, 123)
+    assert_type_error(
+        mixed_args, 1, 2.5, 123, True,
+        expected_func_name='mixed_args',
+        expected_param_name='c',
+        expected_type=str,
+        received_value=123
+    )
 
 
 def test_only_kwargs():
     assert only_kwargs(a=5, b="test") == "5 and test"
-    exception = None
-    try:
-        only_kwargs(a="wrong", b="test")
-    except TypeError as e:
-        exception = e
-    check_type_error(exception, 'only_kwargs', 'a', int, "wrong")
+    assert_type_error(
+        only_kwargs, a="wrong", b="test",
+        expected_func_name='only_kwargs',
+        expected_param_name='a',
+        expected_type=int,
+        received_value="wrong"
+    )
 
 
 def test_no_args():
@@ -80,19 +95,21 @@ def test_args_and_kwargs():
     assert args_and_kwargs(10, 2.5, "test", flag=False) == "10, 2.5, test, False"
     assert args_and_kwargs(1, 3.14, "hello") == "1, 3.14, hello, True"  # flag по умолчанию
 
-    exception = None
-    try:
-        args_and_kwargs("wrong", 2.5, "test", flag=True)
-    except TypeError as e:
-        exception = e
-    check_type_error(exception, 'args_and_kwargs', 'a', int, "wrong")
+    assert_type_error(
+        args_and_kwargs, "wrong", 2.5, "test", flag=True,
+        expected_func_name='args_and_kwargs',
+        expected_param_name='a',
+        expected_type=int,
+        received_value="wrong"
+    )
 
-    exception = None
-    try:
-        args_and_kwargs(10, 2.5, "test", flag="not_bool")
-    except TypeError as e:
-        exception = e
-    check_type_error(exception, 'args_and_kwargs', 'flag', bool, "not_bool")
+    assert_type_error(
+        args_and_kwargs, 10, 2.5, "test", flag="not_bool",
+        expected_func_name='args_and_kwargs',
+        expected_param_name='flag',
+        expected_type=bool,
+        received_value="not_bool"
+    )
 
 
 def test():
