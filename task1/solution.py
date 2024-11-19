@@ -1,11 +1,11 @@
-def check_type(func_name, arg_name, expected_type, received_value):
+def check_type(func_name, param_name, expected_type, received_value):
     if not isinstance(received_value, expected_type):
         error = TypeError(
-            f"In function '{func_name}': Argument '{arg_name}' must be of type {expected_type.__name__}, "
+            f"In function '{func_name}': Argument '{param_name}' must be of type {expected_type.__name__}, "
             f"but received {type(received_value).__name__}"
         )
         error.func_name = func_name
-        error.param_name = arg_name
+        error.param_name = param_name
         error.expected_type = expected_type
         error.received_value = received_value
         raise error
