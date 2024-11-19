@@ -60,39 +60,41 @@ def strict(func: Callable) -> Callable:
     return wrapper
 
 
-@strict
-def my_func(params: dict, value: int, comment: str) -> bool:
-    logger.info(f"params: {params}, value: {value}, comment: {comment}")
-    return True
+if __name__ == '__main__':
+    ### Simple tests:
+
+    @strict
+    def my_func(params: dict, value: int, comment: str) -> bool:
+        logger.info(f"params: {params}, value: {value}, comment: {comment}")
+        return True
+
+    try:
+        my_func(params={"a": 1, "b": 2, "c": 3}, value=ValueError, comment="test")
+    except TypeError as error:
+        logger.error(error)
+
+    my_func(params={"a": 1, "b": 2, "c": 3}, value=22, comment="test")
+
+    my_func({"a": 1, "b": 2, "c": 3}, 22, "test")
+
+    try:
+        my_func({"a": 1, "b": 2, "c": 3}, 22.22, comment="ValueError")
+    except TypeError as error:
+        logger.error(error)
+
+    try:
+        my_func({"a": 1, "b": 2, "c": 3}, value=22.22, comment="ValueError")
+    except TypeError as error:
+        logger.error(error)
 
 
-try:
-    my_func(params={"a": 1, "b": 2, "c": 3}, value=ValueError, comment="test")
-except TypeError as error:
-    logger.error(error)
-
-my_func(params={"a": 1, "b": 2, "c": 3}, value=22, comment="test")
-
-my_func({"a": 1, "b": 2, "c": 3}, 22, "test")
-
-try:
-    my_func({"a": 1, "b": 2, "c": 3}, 22.22, comment="ValueError")
-except TypeError as error:
-    logger.error(error)
-
-try:
-    my_func({"a": 1, "b": 2, "c": 3}, value=22.22, comment="ValueError")
-except TypeError as error:
-    logger.error(error)
+    @strict
+    def sum_two(a: int, b: int) -> int:
+        return a + b
 
 
-@strict
-def sum_two(a: int, b: int) -> int:
-    return a + b
-
-
-print(sum_two(1, 2))  # >>> 3
-try:
-    print(sum_two(1, 2.4))  # >>> TypeError
-except TypeError as error:
-    logger.error(error)
+    print(sum_two(1, 2))  # >>> 3
+    try:
+        print(sum_two(1, 2.4))  # >>> TypeError
+    except TypeError as error:
+        logger.error(error)
