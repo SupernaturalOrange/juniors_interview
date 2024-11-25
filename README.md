@@ -10,3 +10,25 @@
 [Задача 1](task1/task1.md)   
 [Задача 2](task2/task2.md)  
 [Задача 3](task3/task3.md)
+
+### Создание и активация виртуального окружения:
+
+- **sudo apt install python3-virtualenv**
+- **virtualenv .venv**
+- **source .venv/bin/activate**
+
+------------
+
+### Установка зависимостей:
+
+
+- **pip install poetry**
+- **poetry install**
+
+------------
+
+### PyCharm
+
+Папки с названием **solution** помечаем как **Sources Root**
+
+------------
