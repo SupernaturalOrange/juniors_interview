@@ -1,0 +1,24 @@
+[tool.poetry]
+name = "juniors-interview"
+version = "0.1.0"
+description = ""
+authors = ["AlexSokolov <speaker04@mail.ru>"]
+readme = "README.md"
+package-mode = false
+
+[tool.poetry.dependencies]
+python = "^3.11"
+black = "^24.10.0"
+flake8 = "^7.1.1"
+flake8-bugbear = "^24.8.19"
+flake8-pie = "^0.16.0"
+isort = "^5.13.2"
+mypy = "^1.11.2"
+pytest = "^8.3.3"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.mypy]
+strict = true
