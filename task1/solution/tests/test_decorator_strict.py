@@ -1,9 +1,6 @@
-from typing import Any, ParamSpec, TypeVar
+from typing import Any
 
 import pytest
-
-T = TypeVar("T")
-P = ParamSpec("P")
 
 
 def test_decorator_strict_with_func_sum_two_int_numbers(
@@ -12,6 +9,7 @@ def test_decorator_strict_with_func_sum_two_int_numbers(
 ) -> None:
     """
     Тест декоратора strict с функцией, которая принимает на себя два целых числа и возвращает их сумму.
+
     :param func_sum_two_int_numbers: Тестируемая функция.
     :param decorator_strict: Тестируемый декоратор.
     :return: None.
@@ -51,6 +49,7 @@ def test_decorator_strict_with_func_area_of_the_rectangle(
 ) -> None:
     """
     Тест декоратора strict с функцией, которая принимает на себя два числа с плавающей точкой и умножает их.
+
     :param func_area_of_the_rectangle: Тестируемая функция.
     :param decorator_strict: Тестируемый декоратор.
     :return: None.

@@ -1,7 +1,7 @@
 from functools import wraps
 from typing import Callable, ParamSpec, TypeVar
 
-from tools.decorators.utils.utils import type_validation
+from task1.solution.tools.decorators.utils.utils import type_validation
 
 T = TypeVar("T")
 P = ParamSpec("P")

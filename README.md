@@ -26,9 +26,3 @@
 - **poetry install**
 
 ------------
-
-### PyCharm
-
-Папки с названием **solution** помечаем как **Sources Root**
-
-------------

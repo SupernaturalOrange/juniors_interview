@@ -15,6 +15,10 @@ flake8-pie = "^0.16.0"
 isort = "^5.13.2"
 mypy = "^1.11.2"
 pytest = "^8.3.3"
+requests = "^2.32.3"
+types-requests = "^2.32.0.20241016"
+beautifulsoup4 = "^4.12.3"
+types-beautifulsoup4 = "^4.12.0.20241020"
 
 [build-system]
 requires = ["poetry-core"]
